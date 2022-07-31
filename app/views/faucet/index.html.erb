@@ -1,0 +1,56 @@
+<% if flash[:notice] %>
+ <div class="alert alert-success" role="alert">
+ <p class="notice text-center" style="color:green;"><%= flash[:notice] %></p></div>
+<% end %>
+<h1>Bitcoin Faucet</h1>
+<h2>残高：<%= @amount %> BTC</h2>
+<p><%= @utxo %></p>
+<%= form_with url: faucet_path do |f| %>
+    <%= f.label :to_address, "アドレス" %>
+    <%= f.text_field :to_address %>&#009;
+    <%= f.label :amount, "送金額" %>
+    <%= f.number_field :amount, step: 0.0001 %>&#009;
+    <%= f.submit "送金", class: 'btn btn-primary' %>
+<% end %>
+<br><br>
+<h3>送金履歴</h3>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">TXID</th>
+      <th scope="col">送金先</th>
+      <th scope="col">送金額</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @histories.each do |history| %>
+      <tr>
+        <th scope="row"><%= history.txid %></th>
+        <td><%= history.to_adress  %></td>
+        <td><%= history.amount  %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br><br>
+<h3>為替レート</h3>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">仮想通貨</th>
+      <th scope="col">略称</th>
+      <th scope="col">レート(仲値)</th>
+      <th scope="col">買値</th>
+      <th scope="col">売値</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">ビットコイン</th>
+      <td>BTC</td>
+      <td class='middle-rate'>取得中</td>
+      <td class='buy-order-value'>取得中</td>
+      <td class='sell-order-value'>取得中</td>
+    </tr>
+  </tbody>
+</table>
